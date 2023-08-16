@@ -32,7 +32,7 @@ def get_file_owner(file_path):
                 owner_name, _, _ = win32security.LookupAccountSid(None, owner_sid)
                 return owner_name
             except Exception as e:
-                print(str(e)):
+                print(str(e))
                 return 'Unknown'
 
 
