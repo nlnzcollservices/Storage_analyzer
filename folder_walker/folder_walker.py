@@ -5,8 +5,8 @@ import datetime
 import win32api
 import win32security
 import getpass
-import matplotlib.font_manager as fm
 import sys
+import argparse
 
 def get_file_owner(file_path):
     try:
@@ -56,26 +56,25 @@ def process_files(folder_path):
     df = pd.DataFrame(data)
     return df
 
-if __name__ == "__main__":
+def main():
+    parser = argparse.ArgumentParser(description='Folder Walker Script')
+    parser.add_argument('folder_path', help='Path of the folder to analyze')
+    parser.add_argument('--csv', dest='csv_folder_path', default='.', help='Path to save the CSV file')
+    args = parser.parse_args()
 
-    timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    csv_file_path = f'folder_walker_result_{timestamp}.csv'
-        
-    if len(sys.argv) == 2:
-        folder_path = sys.argv[1]
-
-        if len(sys.argv) ==3:
-            csv_folder_path = sys.argv[2]
-            csv_file_path = os.path.join(csv_folder_path)
-
-    else:
-        print("Usage: python", sys.argv[0], "<folder_path>")
+    folder_path = args.folder_path
+    csv_folder_path = args.csv_folder_path
 
     returned_df = process_files(folder_path)
-    
-    # Get the current timestamp
 
-    # Save the DataFrame to the CSV file
-    returned_df.to_csv(csv_file_path, index=False, encoding='utf-8')
-    
-    print("CSV file saved:", csv_file_path)
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    csv_file_path = os.path.join(csv_folder_path, f'folder_walker_result_{timestamp}.csv')
+
+    try:
+        returned_df.to_csv(csv_file_path, index=False, encoding='utf-8')
+        print("CSV file saved:", csv_file_path)
+    except Exception as e:
+        print("Error saving CSV file:", e)
+
+if __name__ == "__main__":
+    main()
