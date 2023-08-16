@@ -19,7 +19,6 @@ To use this script, follow these steps:
 import sys
 import argparse
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
 script_url = r"https://raw.githubusercontent.com/nlnzcollservices/Storage_analyzer/main/folder_walker/folder_walker.py?token=GHSAT0AAAAAACGJ33BR5D7LAUOC4OA3XZTOZG4OZJA"
 response = requests.get(script_url, verify=False)
 script_content = response.text
