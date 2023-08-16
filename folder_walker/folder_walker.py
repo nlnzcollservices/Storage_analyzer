@@ -1,0 +1,81 @@
+import os
+import csv
+import pandas as pd
+import datetime
+import win32api
+import win32security
+import getpass
+import matplotlib.font_manager as fm
+import sys
+
+def get_file_owner(file_path):
+    try:
+        sd = win32security.GetFileSecurity(file_path, win32security.OWNER_SECURITY_INFORMATION)
+        owner_sid = sd.GetSecurityDescriptorOwner()
+        owner_name, _, _ = win32security.LookupAccountSid(None, owner_sid)
+        return owner_name
+    except Exception:
+        return 'Unknown'
+
+def process_files(folder_path):
+    current_username = getpass.getuser()
+
+    data = []
+    for root, dirs, files in os.walk(folder_path):
+        # Skip specific folders
+        if 'linz' in dirs:
+            dirs.remove('linz')
+        
+        for file in files:
+            file_path = os.path.join(root, file)
+            
+            # Get file information
+            file_stat = os.stat(file_path)
+            file_size = file_stat.st_size
+            file_creator = get_file_owner(file_path)
+            file_created = file_stat.st_ctime
+            file_created = datetime.datetime.fromtimestamp(file_created)
+            file_modified = file_stat.st_mtime
+            file_modified = datetime.datetime.fromtimestamp(file_modified)
+            year = file_created.year
+            month = file_created.month
+            
+            data.append({
+                'Name': file,
+                'Path': file_path,
+                'Size': file_size,
+                'Creator': file_creator,
+                'Created': file_created,
+                'Modified': file_modified,
+                'Year': year,
+                'Month': month,
+                'Filename': os.path.basename(file_path),
+                'Folder': os.path.basename(os.path.dirname(file_path))
+            })
+
+    df = pd.DataFrame(data)
+    return df
+
+if __name__ == "__main__":
+
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    csv_file_path = f'folder_walker_result_{timestamp}.csv'
+        
+    if len(sys.argv) == 2:
+        folder_path = sys.argv[1]
+
+        if len(sys.argv) ==3:
+            csv_folder_path = sys.argv[2]
+            csv_file_path = os.path.join(csv_folder_path)
+
+    else:
+        print("Usage: python", sys.argv[0], "<folder_path>")
+
+    returned_df = process_files(folder_path)
+    
+    # Get the current timestamp
+
+    # Save the DataFrame to the CSV file
+    returned_df.to_csv(csv_file_path, index=False, encoding='utf-8')
+    
+    print("CSV file saved:", csv_file_path)
