@@ -14,4 +14,24 @@ To use this script, follow these steps:
    ```bash
    python folder_walker_script.py path_to_folder csv_folder_path
    ```
-   or use run_from_github sctipt, insert raw folder_walker.py link from githyb
+   Or use **run_from_github.py** sctipt exemple  - replace script url link on raw folder_walker.py link from github. Use your folder path and csv filepath. This way df will be returned.
+   ```
+import sys
+import argparse
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+script_url = r"https://raw.githubusercontent.com/nlnzcollservices/Storage_analyzer/main/folder_walker/folder_walker.py?token=GHSAT0AAAAAACGJ33BR5D7LAUOC4OA3XZTOZG4OZJA"
+response = requests.get(script_url, verify=False)
+script_content = response.text
+folder_path = r'Y:\ndha\CS_legaldeposit\LD_Proj'
+csv_filepath = r"Y:\ndha\pre-deposit_prod\LD_working\storage_analyzer\Storage_analyzer"
+modified_script_content = (
+    script_content
+    + f"\nfolder_path = r'{folder_path}'\ncsv_filepath = r'{csv_filepath}'"
+)
+namespace = {}
+exec(modified_script_content, namespace)
+process_files = namespace["process_files"]
+df = process_files(folder_path, csv_filepath)
+print(df)
+   ```
