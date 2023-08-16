@@ -56,7 +56,7 @@ def process_files(folder_path, csv_folder_path):
             year = file_created.year
             month = file_created.month
             m_year = file_modified.year
-            m_month = file_modified.month.
+            m_month = file_modified.month
             
             data.append({
                 'Name': file,
