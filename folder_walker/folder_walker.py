@@ -7,6 +7,7 @@ import win32security
 import getpass
 import sys
 import argparse
+from time import sleep
 
 def get_file_owner(file_path):
     try:
@@ -15,8 +16,23 @@ def get_file_owner(file_path):
         owner_name, _, _ = win32security.LookupAccountSid(None, owner_sid)
         return owner_name
     except Exception:
-        return 'Unknown'
+        sleep(1)
+        try:
+            sd = win32security.GetFileSecurity(file_path, win32security.OWNER_SECURITY_INFORMATION)
+            owner_sid = sd.GetSecurityDescriptorOwner()
+            owner_name, _, _ = win32security.LookupAccountSid(None, owner_sid)
+            return owner_name
+        except Exception:
+            sleep(1)
+            try:
+                sd = win32security.GetFileSecurity(file_path, win32security.OWNER_SECURITY_INFORMATION)
+                owner_sid = sd.GetSecurityDescriptorOwner()
+                owner_name, _, _ = win32security.LookupAccountSid(None, owner_sid)
+                return owner_name
+            except Exception:
+                return 'Unknown'
 
+                
 def process_files(folder_path, csv_folder_path):
     current_username = getpass.getuser()
 
