@@ -13,6 +13,9 @@ def get_file_owner(file_path):
     try:
         sd = win32security.GetFileSecurity(file_path, win32security.OWNER_SECURITY_INFORMATION)
         owner_sid = sd.GetSecurityDescriptorOwner()
+        if not owner_sid:
+            print("Owner SID is empty.")
+            return None
         owner_name, _, _ = win32security.LookupAccountSid(None, owner_sid)
         return owner_name
     except Exception as e:
@@ -21,6 +24,9 @@ def get_file_owner(file_path):
         try:
             sd = win32security.GetFileSecurity(file_path, win32security.OWNER_SECURITY_INFORMATION)
             owner_sid = sd.GetSecurityDescriptorOwner()
+            if not owner_sid:
+                print("Owner SID is empty.")
+                return None
             owner_name, _, _ = win32security.LookupAccountSid(None, owner_sid)
             return owner_name
         except Exception as e:
@@ -29,6 +35,9 @@ def get_file_owner(file_path):
             try:
                 sd = win32security.GetFileSecurity(file_path, win32security.OWNER_SECURITY_INFORMATION)
                 owner_sid = sd.GetSecurityDescriptorOwner()
+                if not owner_sid:
+                    print("Owner SID is empty.")
+                    return None
                 owner_name, _, _ = win32security.LookupAccountSid(None, owner_sid)
                 return owner_name
             except Exception as e:
