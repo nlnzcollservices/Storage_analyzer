@@ -14,8 +14,11 @@ To use this script, follow these steps:
    ```bash
    python folder_walker_script.py path_to_folder csv_folder_path
    ```
+   
    Or use **run_from_github.py** sctipt exemple  - replace script url link on raw folder_walker.py link from github. Use your folder path and csv filepath. This way df will be returned.
+
    ```
+   
 import sys
 import argparse
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
