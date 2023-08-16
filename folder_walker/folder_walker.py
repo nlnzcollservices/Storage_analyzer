@@ -15,21 +15,24 @@ def get_file_owner(file_path):
         owner_sid = sd.GetSecurityDescriptorOwner()
         owner_name, _, _ = win32security.LookupAccountSid(None, owner_sid)
         return owner_name
-    except Exception:
+    except Exception as e:
+        print(str(e))
         sleep(1)
         try:
             sd = win32security.GetFileSecurity(file_path, win32security.OWNER_SECURITY_INFORMATION)
             owner_sid = sd.GetSecurityDescriptorOwner()
             owner_name, _, _ = win32security.LookupAccountSid(None, owner_sid)
             return owner_name
-        except Exception:
+        except Exception as e:
+            print(str(e))
             sleep(1)
             try:
                 sd = win32security.GetFileSecurity(file_path, win32security.OWNER_SECURITY_INFORMATION)
                 owner_sid = sd.GetSecurityDescriptorOwner()
                 owner_name, _, _ = win32security.LookupAccountSid(None, owner_sid)
                 return owner_name
-            except Exception:
+            except Exception as e:
+                print(str(e)):
                 return 'Unknown'
 
 
