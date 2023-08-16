@@ -17,7 +17,7 @@ To use this script, follow these steps:
    
    Or use **run_from_github.py** sctipt exemple  - replace script url link on raw folder_walker.py link from github. Use your folder path and csv filepath. This way df will be returned.
 
-   ```
+   ```python
    
 import sys
 import argparse
