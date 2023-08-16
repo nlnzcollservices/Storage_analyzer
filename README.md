@@ -17,8 +17,7 @@ To use this script, follow these steps:
    
    Or use **run_from_github.py** sctipt exemple  - replace script url link on raw folder_walker.py link from github. Use your folder path and csv filepath. This way df will be returned.
 
-   ```python
-   
+```python
 import sys
 import argparse
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -36,4 +35,4 @@ exec(modified_script_content, namespace)
 process_files = namespace["process_files"]
 df = process_files(folder_path, csv_filepath)
 print(df)
-   ```
+```
