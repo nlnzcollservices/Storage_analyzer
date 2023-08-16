@@ -12,4 +12,6 @@ To use this script, follow these steps:
 4. Run the script with the following command:
 
    ```bash
-   python folder_walker_script.py path_to_folder
+   python folder_walker_script.py path_to_folder path_to_csv_folder
+   ```
+   or use run_from_github sctipt, insert raw folder_walker.py link from githyb
