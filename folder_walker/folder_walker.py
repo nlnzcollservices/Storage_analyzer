@@ -32,15 +32,15 @@ def get_file_owner(file_path):
             except Exception:
                 return 'Unknown'
 
-                
+
 def process_files(folder_path, csv_folder_path):
     current_username = getpass.getuser()
 
     data = []
     for root, dirs, files in os.walk(folder_path):
-        # Skip specific folders
-        if 'linz' in dirs:
-            dirs.remove('linz')
+        # # Skip specific folders
+        # if 'linz' in dirs:
+        #     dirs.remove('linz')
         
         for file in files:
             file_path = os.path.join(root, file)
@@ -55,6 +55,8 @@ def process_files(folder_path, csv_folder_path):
             file_modified = datetime.datetime.fromtimestamp(file_modified)
             year = file_created.year
             month = file_created.month
+            m_year = file_modified.year
+            m_month = file_modified.month.
             
             data.append({
                 'Name': file,
@@ -62,10 +64,11 @@ def process_files(folder_path, csv_folder_path):
                 'Size': file_size,
                 'Creator': file_creator,
                 'Created': file_created,
-                'Modified': file_modified,
                 'Year': year,
                 'Month': month,
-                'Filename': os.path.basename(file_path),
+                'Modified': file_modified,
+                'M_Year': m_year,
+                'M_Month': m_month,
                 'Folder': os.path.basename(os.path.dirname(file_path))
             })
 
