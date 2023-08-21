@@ -93,13 +93,11 @@ def process_files(folder_path, csv_folder_path):
 
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     csv_file_path = os.path.join(csv_folder_path, f'folder_walker_result_{timestamp}.csv')
-
-    try:
-        df.to_csv(csv_file_path, index=False, encoding='utf-8')
-        print("CSV file saved:", csv_file_path)
-    except Exception as e:
-        print("Error saving CSV file:", e)
-    return df
+    df.to_csv(csv_file_path, index=False, encoding='utf-8')
+   #     print("CSV file saved:", csv_file_path)
+   # except Exception as e:
+    #    print("Error saving CSV file:", e)
+    #return df
 
 def main():
     parser = argparse.ArgumentParser(description='Folder Walker Script')
