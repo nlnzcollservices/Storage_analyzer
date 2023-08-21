@@ -97,7 +97,7 @@ def process_files(folder_path, csv_folder_path):
    #     print("CSV file saved:", csv_file_path)
    # except Exception as e:
     #    print("Error saving CSV file:", e)
-    #return df
+    return df
 
 def main():
     parser = argparse.ArgumentParser(description='Folder Walker Script')
