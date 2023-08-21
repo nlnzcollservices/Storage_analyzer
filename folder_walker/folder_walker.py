@@ -61,7 +61,7 @@ def process_files(folder_path, csv_folder_path):
         
         for file in files:
             file_path = os.path.join(root, file)
-            
+            print(file_path)
             # Get file information
             file_stat = os.stat(file_path)
             file_size = file_stat.st_size
