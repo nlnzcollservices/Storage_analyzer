@@ -63,31 +63,38 @@ def process_files(folder_path, csv_folder_path):
             file_path = os.path.join(root, file)
             print(file_path)
             # Get file information
-            file_stat = os.stat(file_path)
-            file_size = file_stat.st_size
-            file_creator = get_file_owner(file_path)
-            file_created = file_stat.st_ctime
-            file_created = datetime.datetime.fromtimestamp(file_created)
-            file_modified = file_stat.st_mtime
-            file_modified = datetime.datetime.fromtimestamp(file_modified)
-            year = file_created.year
-            month = file_created.month
-            m_year = file_modified.year
-            m_month = file_modified.month
-            
-            data.append({
-                'Name': file,
-                'Path': file_path,
-                'Size': file_size,
-                'Creator': file_creator,
-                'Created': file_created,
-                'Year': year,
-                'Month': month,
-                'Modified': file_modified,
-                'M_Year': m_year,
-                'M_Month': m_month,
-                'Folder': os.path.basename(os.path.dirname(file_path))
-            })
+            try:
+
+                file_stat = os.stat(file_path)
+                file_size = file_stat.st_size
+                file_creator = get_file_owner(file_path)
+                file_created = file_stat.st_ctime
+                file_created = datetime.datetime.fromtimestamp(file_created)
+                file_modified = file_stat.st_mtime
+                file_modified = datetime.datetime.fromtimestamp(file_modified)
+                year = file_created.year
+                month = file_created.month
+                m_year = file_modified.year
+                m_month = file_modified.month
+                
+                data.append({
+                    'Name': file,
+                    'Path': file_path,
+                    'Size': file_size,
+                    'Creator': file_creator,
+                    'Created': file_created,
+                    'Year': year,
+                    'Month': month,
+                    'Modified': file_modified,
+                    'M_Year': m_year,
+                    'M_Month': m_month,
+                    'Folder': os.path.basename(os.path.dirname(file_path))
+                })
+
+            except:
+                print(file_path)
+                with open(os.path.join(csv_folder_path, "log.txt"), 'a', encoding="utf-8") as f:
+                    f.write('%s "failed"\n' % (file_path))
 
     df = pd.DataFrame(data)
 
@@ -100,15 +107,20 @@ def process_files(folder_path, csv_folder_path):
     return df
 
 def main():
-    parser = argparse.ArgumentParser(description='Folder Walker Script')
-    parser.add_argument('folder_path', help='Path of the folder to analyze')
-    parser.add_argument('--csv', dest='csv_folder_path', default='.', help='Path to save the CSV file')
-    args = parser.parse_args()
+    try:
+        parser = argparse.ArgumentParser(description='Folder Walker Script')
+        parser.add_argument('folder_path', help='Path of the folder to analyze')
+        parser.add_argument('csv_folder_path', default='.', help='Path to save the CSV file')
+        args = parser.parse_args()
 
-    folder_path = args.folder_path
-    csv_folder_path = args.csv_folder_path
+        folder_path = args.folder_path
+        csv_folder_path = args.csv_folder_path
 
-    returned_df = process_files(folder_path)
+    except:
+        folder_path = r"Y:\ndha\CS_legaldeposit\LD\one-time"  
+        csv_folder_path = r"Z:\testing"
+
+    returned_df = process_files(folder_path, csv_folder_path)
 
     return returned_df
 
