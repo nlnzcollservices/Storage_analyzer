@@ -117,8 +117,8 @@ def main():
         csv_folder_path = args.csv_folder_path
 
     except:
-        folder_path = r"Y:\ndha\CS_legaldeposit\LD\one-time"  
-        csv_folder_path = r"Z:\testing"
+        folder_path = ""  
+        csv_folder_path = ""
 
     returned_df = process_files(folder_path, csv_folder_path)
 
